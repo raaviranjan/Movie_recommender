@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Movie Recommender</title>
+        
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+        <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    </head>
+
+    <body id = "content">
+
+        <!-- Website Title -->
+    	<div class="container">
+            <center><h2 style="color:red"><b><span>Movie Recommendation System</span></b></h2>
+            <div class='description' style="color:white">
+    			<p>A Machine Learning Web App, Built with Flask, Deployed using Heroku.</p>
+    		</div></center>
+    	</div>
+
+        <div>
+            <center><form class = "movie_container" autocomplete="off" action="{{ url_for('recommend')}}" method="post">
+                <div class="autocomplete" style="width:300px;">
+                    <input id="myInput" class = "movie_input" name = "movie_name" placeholder="Enter movie name"><br>
+                    <div id = "suggestion">
+                    </div>
+                </div>
+                <br>
+                <button class = "button" type="submit ">Submit</button>
+            </form></center>
+        </div>
+        <br>
+        
+        {% if title %}
+            <div id="mycontent">
+                <div id="mcontent">
+                  <div class="poster-lg">
+                    <img class="poster" style="border-radius: 40px;margin-left: 90px;" height="300" width="200" src={{poster}}>
+                  </div>
+                  <div class="poster-sm text-center">
+                    <img class="poster" style="border-radius: 40px;margin-bottom: 5%;" height="300" width="200" src={{poster}}>
+                  </div>
+                  <div id="details">
+                    <h5 id="title" style="color:white;">TITLE: &nbsp;{{title}}</h5>
+                    <h5 id="overview" style="color:white;max-width: 85%">OVERVIEW: {{overview}}</h5>
+                    <h5 id="vote_average" style="color:white;">IMDB RATING: &nbsp;{{rating}}/10 ({{vote_count}} Votes)</h5>
+                    <h5 id="genres" style="color:white;">GENRE: &nbsp;{{genres}}</h5>
+                    <h5 id="date" style="color:white;">RELEASE DATE: &nbsp;{{release_date}}</h5>
+                    <h5 id="runtime" style="color:white;">RUNTIME: &nbsp;{{runtime}} Minutes</h5>
+                    
+                  </div>
+                </div>
+            </div>
+        
+        {% endif %}
+        
+        {% if flag %}
+            <div class="movie" style="color: #E8E8E8;">
+                <center><h3>!!! Movie Not Found !!!</h3><h5>Please check the spelling or try with other movies</h5></center>
+            </div>
+        {% endif %}
+        <br>
+        
+        {% if movie_list %}
+
+
+            <div class="movie" style="color: #E8E8E8;">
+                <center><h3>RECOMMENDED MOVIES FOR YOU</h3><h5>(Click any of the movies to get recommendation)</h5></center>
+            </div>
+
+            <div class="movie-content">
+                {% for title, poster in movie_list.items() %}
+                    <div class="card" style="width: 14rem; height: 26rem" title="{{title}}" onclick="abc('aaaaa')">
+                        <div class="imghvr">
+                            <img class="card-img-top" style="height: 20rem" alt="{{title}} - poster" src={{poster}}>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{title|capitalize}}</h5>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% endif %}
+  
+        
+
+        <!-- Footer -->
+        <div class='footer'>
+            <div class="contact">
+                <a target="_blank" href="#"><i class="fab fa-github fa-lg contact-icon"></i></a>
+                <a target="_blank" href="#"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
+            </div>
+           
+            <p class='footer-description'>Made by Ravi Ranjan.</p>
+        </div>
+       
+        
+        <script>
+            var list_of_movies = {{movie_title_list|tojson}};
+        </script>
+        <script type="text/javascript" src="{{url_for('static', filename='autocomplete.js')}}"></script>
+
+    </body>
+</html>
