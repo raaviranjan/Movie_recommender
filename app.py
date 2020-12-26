@@ -31,12 +31,14 @@ def preprocessing():
     movie.drop(['title_x','title_y','tagline','wins_nominations'],axis=1,inplace=True)
     movie['title'] = movie['title'].str.lower()
     movie.dropna(subset=['story','actors','imdb_rating','imdb_votes'],inplace=True)
+    movie = movie.astype({"year_of_release":'int64'})
+    movie = movie[movie.year_of_release >= 1975]
     movie['poster_path'] = movie['poster_path'].fillna('https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg')
     movie['genres'] = movie['genres'].apply(lambda x:x.split('|'))
     movie['genres'] = movie['genres'].apply(lambda x:' '.join(x))
     movie['actors'] = movie['actors'].apply(lambda x:x.split('|'))
     movie['actors'] = movie['actors'].apply(lambda x:' '.join(x))
-    movie['comb'] = movie['genres']+" "+movie['summary']+" "+movie['actors']
+    movie['comb'] = movie['genres']+" "+movie['story']+" "+movie['actors']
     set_movie_db(movie)
 
 def recommend_movies(movie_name):

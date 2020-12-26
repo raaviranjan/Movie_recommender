@@ -8,7 +8,8 @@ function comp(){
         
         suggestionPanel.innerHTML = '';
         
-        var suggestions = list_of_movies.filter(movie => movie.toLowerCase().startsWith(input));
+        var suggestions = list_of_movies.filter(movie => movie.toLowerCase().startsWith(input)).slice(0, 5);;
+        
         
         suggestions.forEach(function(suggested){
             const div = document.createElement('div');
